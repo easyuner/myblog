@@ -59,11 +59,12 @@ jobs:
           name: github-pages
 
       - name: Deploy to OSS via S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+          AWS_DEFAULT_REGION: oss-cn-wuhan-lr
         run: |
-          aws configure set aws_access_key_id ${{ secrets.OSS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-          aws configure set default.region oss-cn-wuhan-lr
-          aws s3 sync ./ s3://easyuner-blog/ \
+          aws s3 sync . s3://easyuner-blog/ \
             --endpoint-url https://oss-cn-wuhan-lr.aliyuncs.com \
             --delete \
             --cache-control "public,max-age=3600"
