@@ -1,0 +1,8 @@
+description = "个人博客 - 技术、生活与项目"
+author = "Your Name"
+
+[params.theme]
+  accentColor = "#2563eb"
+  bodyFontSize = "18px"
+  bodyLineHeight = "1.8"
+  contentMaxWidth = "680px"

@@ -1,0 +1,27 @@
+baseURL = "https://yourusername.github.io/"
+languageCode = "zh-CN"
+defaultContentLanguage = "zh"
+title = "我的博客"
+theme = "myblog"
+
+enableRobotsTXT = true
+enableEmoji = true
+hasCJKLanguage = true
+
+[markup]
+  [markup.highlight]
+    style = "github-dark"
+    noClasses = false
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+  page = ["HTML"]
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[privacy]
+  [privacy.youtube]
+    privacyEnhanced = true
