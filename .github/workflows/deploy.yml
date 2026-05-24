@@ -60,14 +60,15 @@ jobs:
 
       - name: Setup ossutil
         run: |
-          curl -sL https://gosspublic.alicdn.com/ossutil/install.sh | bash
-          echo "$HOME/ossutil" >> $GITHUB_PATH
+          wget -q https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil64 -O ossutil
+          chmod +x ossutil
+          echo "$PWD" >> $GITHUB_PATH
 
-      - name: Configure ossutil
+      - name: Run ossutil config
         run: |
-          ossutil config --endpoint ${{ secrets.OSS_ENDPOINT }} \
-            --access-key-id ${{ secrets.OSS_ACCESS_KEY_ID }} \
-            --access-key-secret ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+          ./ossutil config -e ${{ secrets.OSS_ENDPOINT }} \
+            -i ${{ secrets.OSS_ACCESS_KEY_ID }} \
+            -k ${{ secrets.OSS_ACCESS_KEY_SECRET }}
 
       - name: Deploy to OSS
         run: |
