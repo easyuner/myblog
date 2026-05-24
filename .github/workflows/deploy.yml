@@ -34,9 +34,15 @@ jobs:
       - name: Setup Pagefind
         run: npx pagefind --site public
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          path: ./public
+
+      - name: Upload OSS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
           path: ./public
 
   deploy-pages:
@@ -56,7 +62,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: github-pages
+          name: site
 
       - name: Deploy to OSS via S3
         env:
@@ -64,6 +70,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
           AWS_DEFAULT_REGION: oss-cn-wuhan-lr
         run: |
+          aws configure set default.s3.addressing_style path
           aws s3 sync . s3://easyuner-blog/ \
             --endpoint-url https://oss-cn-wuhan-lr.aliyuncs.com \
             --delete \
