@@ -1,0 +1,7 @@
+name = "myblog"
+license = "MIT"
+description = "Personal blog theme - minimal, clean, reading-focused"
+min_version = "0.140.0"
+
+[author]
+  name = "blog owner"
