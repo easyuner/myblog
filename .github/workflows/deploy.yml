@@ -32,15 +32,14 @@ jobs:
         run: hugo --minify
 
       - name: Setup Pagefind
-        run: |
-          npx pagefind --site public
+        run: npx pagefind --site public
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
-  deploy:
+  deploy-pages:
     needs: build
     runs-on: ubuntu-latest
     environment:
@@ -50,3 +49,29 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-oss:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+
+      - name: Setup ossutil
+        run: |
+          curl -sL https://gosspublic.alicdn.com/ossutil/install.sh | bash
+          echo "$HOME/ossutil" >> $GITHUB_PATH
+
+      - name: Configure ossutil
+        run: |
+          ossutil config --endpoint ${{ secrets.OSS_ENDPOINT }} \
+            --access-key-id ${{ secrets.OSS_ACCESS_KEY_ID }} \
+            --access-key-secret ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+
+      - name: Deploy to OSS
+        run: |
+          ossutil rm oss://easyuner-blog/ -r -f
+          ossutil cp ./ oss://easyuner-blog/ -r -f \
+            --include "*" \
+            --meta "Cache-Control:public,max-age=3600"
