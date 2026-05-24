@@ -1,0 +1,23 @@
+{{ define "main" }}
+  <article>
+    <header class="post-header">
+      <h1>{{ .Title }}</h1>
+      {{ partial "post-meta.html" . }}
+    </header>
+    <div class="post-content">
+      {{ .Content }}
+    </div>
+    <footer class="post-footer-nav">
+      {{ with .PrevInSection }}
+        <a href="{{ .RelPermalink }}">&larr; {{ .Title }}</a>
+      {{ else }}
+        <span></span>
+      {{ end }}
+      {{ with .NextInSection }}
+        <a href="{{ .RelPermalink }}">{{ .Title }} &rarr;</a>
+      {{ else }}
+        <span></span>
+      {{ end }}
+    </footer>
+  </article>
+{{ end }}
