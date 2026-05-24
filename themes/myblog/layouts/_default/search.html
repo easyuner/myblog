@@ -1,4 +1,19 @@
 {{ define "main" }}
   <h1>{{ .Title }}</h1>
-  {{ .Content }}
+  <div class="search-box-wrapper">
+    <input class="search-box" id="search" type="search" placeholder="输入关键词搜索...">
+  </div>
+  <div id="results"></div>
+
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+  <script src="/pagefind/pagefind-ui.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      new PagefindUI({
+        element: '#results',
+        showSubResults: true,
+        showImages: false,
+      });
+    });
+  </script>
 {{ end }}
