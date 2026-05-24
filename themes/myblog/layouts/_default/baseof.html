@@ -7,7 +7,9 @@
       {{ block "main" . }}{{ end }}
     </main>
     {{ partial "footer.html" . }}
-    {{ $js := resources.Get "js/theme.js" | minify | fingerprint }}
+    {{ $theme := resources.Get "js/theme.js" }}
+    {{ $lightbox := resources.Get "js/lightbox.js" }}
+    {{ $js := slice $theme $lightbox | resources.Concat "js/main.js" | minify | fingerprint }}
     <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
   </body>
 </html>
