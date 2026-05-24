@@ -1,0 +1,10 @@
+{{ define "main" }}
+  {{ $posts := where .Site.RegularPages "Type" "posts" }}
+  {{ $paginator := .Paginate $posts 10 }}
+
+  {{ range $paginator.Pages }}
+    {{ partial "post-card.html" . }}
+  {{ end }}
+
+  {{ partial "pagination.html" . }}
+{{ end }}
