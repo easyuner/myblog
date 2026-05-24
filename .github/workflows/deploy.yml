@@ -58,21 +58,12 @@ jobs:
         with:
           name: github-pages
 
-      - name: Setup ossutil
+      - name: Deploy to OSS via S3
         run: |
-          wget -q https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil64 -O ossutil
-          chmod +x ossutil
-          echo "$PWD" >> $GITHUB_PATH
-
-      - name: Run ossutil config
-        run: |
-          ./ossutil config -e ${{ secrets.OSS_ENDPOINT }} \
-            -i ${{ secrets.OSS_ACCESS_KEY_ID }} \
-            -k ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-
-      - name: Deploy to OSS
-        run: |
-          ossutil rm oss://easyuner-blog/ -r -f
-          ossutil cp ./ oss://easyuner-blog/ -r -f \
-            --include "*" \
-            --meta "Cache-Control:public,max-age=3600"
+          aws configure set aws_access_key_id ${{ secrets.OSS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+          aws configure set default.region oss-cn-wuhan-lr
+          aws s3 sync ./ s3://easyuner-blog/ \
+            --endpoint-url https://oss-cn-wuhan-lr.aliyuncs.com \
+            --delete \
+            --cache-control "public,max-age=3600"
