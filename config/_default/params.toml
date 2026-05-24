@@ -6,3 +6,6 @@ author = "Your Name"
   bodyFontSize = "18px"
   bodyLineHeight = "1.8"
   contentMaxWidth = "680px"
+
+[params.waline]
+  serverURL = ""  # 填入 LeanCloud 部署后获得的 URL

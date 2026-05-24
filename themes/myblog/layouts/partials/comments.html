@@ -1,0 +1,14 @@
+{{ if and .Site.Params.waline.serverURL (not .Params.disableComments) }}
+<div class="comments" id="comments">
+  <h2>评论</h2>
+  <script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+    init({
+      el: '#comments',
+      serverURL: '{{ .Site.Params.waline.serverURL }}',
+      lang: 'zh-CN',
+      dark: 'html[data-theme="dark"]',
+    });
+  </script>
+</div>
+{{ end }}
